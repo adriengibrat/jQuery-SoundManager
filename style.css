@@ -1,0 +1,85 @@
+.playable {
+	text-decoration: none !important;
+	color: black;
+	display: block;
+	padding: .5em;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	outline: none;
+}
+.playable.playing {
+	background-color: #69C;
+}
+.playable.paused {
+	background-color: #CCC;
+}
+.playable .ui {
+	display: none;
+}
+.playable.playing .ui,
+.playable.paused .ui {
+	display: block;
+}
+.playable .ui.controls,
+.playable .ui.controls .loading,
+.playable .ui.controls .position {
+	height: .5em;
+}
+.playable .ui.controls {
+	position: relative;
+	border: 1px solid #FFF;
+	background-color: #CDF;
+	margin: .25em 0 0 0;
+	cursor:ew-resize;
+	cursor:-moz-grab;
+	cursor:grab;
+	overflow: hidden;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+.playable.paused .ui.controls {
+	background-color: #CCC;
+}
+.playable .ui.controls .loading,
+.playable .ui.controls .position {
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	-moz-border-radius-topleft: 2px;
+	-moz-border-radius-bottomleft: 2px;
+	-webkit-border-top-left-radius: 2px;
+	-webkit-border-bottom-left-radius: 2px;
+}
+.playable .ui.controls .loading {
+	background-color: #EEE;
+}
+.playable .ui.controls .position {
+	background-color: #369;
+}
+.playable.paused .ui.controls .position {
+	background-color: #666;
+}
+.playable .ui.timing {
+	color: #FFF;
+	float: right;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	font-size: 44%;
+	line-height: 1em;
+	padding: .1em .2em;
+	margin-left: .25em;
+	cursor: text;
+}
+.playable .ui.timing {
+	background-color: #58B;
+	border: 1px solid #9CF;
+}
+.playable.paused .ui.timing {
+	background-color: #888;
+	border: 1px solid #FFF;
+}
+.playable.paused .ui.timing .elapsed {
+	text-decoration: blink;
+}
+
