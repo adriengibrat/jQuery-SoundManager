@@ -112,7 +112,8 @@
 		}
 	} );
 	$.fn.playable = function( options ) {
-		var self = this.is( 'a[href]' ) ? this : this.find( 'a[href]' );
+		var self = this.is( 'a[href]' ) ? this : this.find( 'a[href]' ),
+			options = options || {};
 		if ( typeof options == 'string' && $.inArray( options, $.playable.methods ) != -1 )
 			self.each( function( args ){
 				var sound = $( this ).data( 'playable' );
