@@ -1,0 +1,43 @@
+@see http://www.schillmania.com/projects/soundmanager2/doc/download/#latest for Sound Manager download
+@see http://www.schillmania.com/projects/soundmanager2/doc/ for Sound Manager documentation
+
+USAGE EXEMPLES:
+
+$(function(){
+// Simple usage for mp3 links
+	$.playable('soundmanager/swf/');
+	$('a[href=$.mp3]').playable();
+
+// OR Usage with options
+	$.playable('soundmanager/swf/', { //options used here are stored as soundManager.defaultOptions
+		// You can use all SM2 default options, plus the followings:
+		autoStart : false, // Start playing the first item
+		playNext : false, // Play next item when previous ends
+		loopNext : false, // Play first item when no more next item
+		pauseOnly : false, // Just pause previous on skip
+		playAlone : false, // Force stop/pause previous on skip
+		doUnload : false // Unload sound on stop/finish
+	});
+	//Exemples of configurations
+	$('ul.playlist').playable({autoStart: true, playNext: true, playAlone: true, pauseOnly: false, doUnload: false});
+	$('div.sampler').playable({autoStart: false, playNext: false, playAlone: false, pauseOnly: false, doUnload: false});
+	$('a.listen').playable({autoStart: false, playNext: false, playAlone: true, pauseOnly: true, doUnload: true});
+
+// TO Modify Sound Objects (you can use all SMSound methods)
+	$('.playlist').playable('setSound', 50); // reduce sound to 50% for the whole playlist
+	$('.sampler .playable:eq(1)').playable('pause'); // pause the second playable item of the sampler
+	$('.listen .playable:last').playable('play'); // play the last playable item of the '.listen' list
+	...
+
+// TO Play next song in current playlist
+	$.playable.next(); // plays next song with the same selector as the current song playing
+	$.playable.next(2); // plays the one after the next song with the same selector as the current song playing
+	$.playable.next(-1); // plays previous song with the same selector as the current song playing
+	...
+});
+
+
+FOR DEVELOPERS
+* You can access sound object via $(element).data('playable')
+* You can add your own event handlers with $(element).bind( type* , function( event, sound ){...}) [* SMSound events]
+* You can add more SMSound events handlers in $.playable.events (like onid3, ondataerror, etc.. @see jquery.playable.ui.simple.js for a exemple how to extend the plugin/build an UI)
