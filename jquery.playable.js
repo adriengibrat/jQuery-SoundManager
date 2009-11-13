@@ -1,3 +1,11 @@
+/*!
+ * jQuery Sound Manager Plugin
+ * http://github.com/adriengibrat/jQuery-SoundManager
+ *
+ * Copyright (c) 2009 Adrien Gibrat
+ * Dual licensed under the MIT and GPL licenses.
+ * http://opensource.org/licenses/mit-license.php
+ */
 (function($){
 	var sm = soundManager;
 	$.playable = $.extend( function( url, settings ) {
