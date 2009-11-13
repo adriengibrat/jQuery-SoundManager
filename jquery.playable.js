@@ -15,9 +15,9 @@
 			consoleOnly : window.location.hash.match(/console$/i), // Debug in console only (#debugconsole)
 			defaultOptions : $.extend({ // Extends soundManager default options
 				autoStart : false,
+				pauseOnly : false,
 				playNext : true,
 				loopNext : true,
-				pauseOnly : false,
 				playAlone : true,
 				doUnload : false
 			}, settings )
