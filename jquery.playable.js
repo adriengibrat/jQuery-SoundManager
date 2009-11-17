@@ -121,7 +121,7 @@
 			}, [arguments[1]] );
 		else {
 			options.selector = self.selector;
-			sm.onload = function() {
+			sm.onready( function() {
 				self.each( function(){
 					var self = $( this );
 					if ( sm.canPlayURL( self.attr( 'href' ) ) )
@@ -129,7 +129,7 @@
 				});
 				if ( options && options.autoStart )
 					self.filter( ':first' ).click();
-			};
+			});
 		}
 		return this;
 	};
