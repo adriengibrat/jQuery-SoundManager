@@ -39,14 +39,14 @@
 		},
 		methods : ['play','stop','pause','resume','togglePause','mute','unmute','unload','setPosition','setVolume','setPan'],
 		events : ['onload', 'onplay', 'onpause', 'onresume', 'onstop', 'onfinish'],
-		init : function( options ) {
-			var options = $.extend( true, {}, sm.defaultOptions, options ),
-				self = this
-			.addClass( $.playable.css.playable )
+		init : function( options, playlist ) {
+			var options = $.extend( true, {playlist: playlist}, sm.defaultOptions, options ),
+				self = $( this );
+			self.addClass( $.playable.css.playable )
 			.data( 'playable', sm.createSound( $.extend( options, {
 				id : 'playable' + $.playable.count++,
-				url : this.attr( 'href' ),
-				element : this
+				url : this.href,
+				element : self
 			} ) ) )
 			.click( function( event ) {
 				event.preventDefault();
@@ -98,12 +98,12 @@
 				} );
 			}
 		},
-		next : function() {
+		next : function( move ) {
 			if ( ! this.current )
 				return;
 			var options = this.current.data( 'playable' ).options,
-				playlist = $( options.selector ),
-				move = arguments[0] || 1,
+				playlist = $( options.playlist ),
+				move = move || 1,
 				next = playlist.eq( playlist.index( options.element ) + move ).data( 'playable' );
 			if ( ! next && options.loopNext )
 				next = playlist.eq( 0 ).data( 'playable' );
@@ -112,25 +112,23 @@
 		}
 	} );
 	$.fn.playable = function( options ) {
-		var self = this.is( 'a[href]' ) ? this : this.find( 'a[href]' ),
-			options = options || {};
+		var playlist	= this.selector,
+			songs		= this.is( 'a[href]' ) ? this : this.find( 'a[href]' ),
+			options		= options || {};
 		if ( typeof options == 'string' && $.inArray( options, $.playable.methods ) != -1 )
-			self.each( function( args ){
+			songs.each( function( args ){
 				var sound = $( this ).data( 'playable' );
 				sound && sound[options]( args );
 			}, [arguments[1]] );
-		else {
-			options.selector = self.selector;
+		else
 			sm.onready( function() {
-				self.each( function(){
-					var self = $( this );
-					if ( sm.canPlayURL( self.attr( 'href' ) ) )
-						$.playable.init.call( self, options );
+				songs.each( function(){
+					if ( sm.canPlayURL( this.href ) )
+						$.playable.init.call( this, options, playlist );
 				});
 				if ( options && options.autoStart )
-					self.filter( ':first' ).click();
-			});
-		}
+					songs.filter( ':first' ).click();
+			} );
 		return this;
 	};
 })(jQuery);
