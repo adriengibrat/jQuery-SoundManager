@@ -101,12 +101,13 @@
 		next : function( move ) {
 			if ( ! this.current )
 				return;
-			var options = this.current.data( 'playable' ).options,
-				playlist = $( options.playlist ),
-				move = move || 1,
-				next = playlist.eq( playlist.index( options.element ) + move ).data( 'playable' );
+			var options		= this.current.data( 'playable' ).options,
+				playlist	= $( options.playlist ),
+				songs		= playlist.is( 'a[href]' ) ? playlist : playlist.find( 'a[href]' ),
+				move		= move || 1,
+				next		= songs.eq( songs.index( options.element ) + move ).data( 'playable' );
 			if ( ! next && options.loopNext )
-				next = playlist.eq( 0 ).data( 'playable' );
+				next = songs.eq( 0 ).data( 'playable' );
 			if ( next && ! next.playState )
 				next.play();
 		}
