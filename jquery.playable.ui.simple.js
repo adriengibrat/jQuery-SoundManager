@@ -70,7 +70,6 @@
 					$( '.' + $.playable.css.total, this ).html( ' / ' + $.playable.formatTime( sound.durationEstimate ) );
 				} );
 				$( document ).bind( 'mouseup.playable', function( event ) {
-					event.preventDefault();
 					if ( ! $.playable.searching )
 						return;
 					var element	= $.playable.searching.removeClass( $.playable.css.searching ).parent(),
