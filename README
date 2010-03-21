@@ -24,7 +24,7 @@ $(function(){
 	$('a.listen').playable({autoStart: false, playNext: false, playAlone: true, pauseOnly: true, doUnload: true});
 
 // TO Modify Sound Objects (you can use all SMSound methods)
-	$('.playlist').playable('setSound', 50); // reduce sound to 50% for the whole playlist
+	$('.playlist').playable('setVolume', 50); // reduce sound to 50% for the whole playlist
 	$('.sampler .playable:eq(1)').playable('pause'); // pause the second playable item of the sampler
 	$('.listen .playable:last').playable('play'); // play the last playable item of the '.listen' list
 	...
