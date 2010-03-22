@@ -9,6 +9,12 @@
 (function($){
 	var sm = soundManager;
 	$.playable = $.extend( function( url, settings ) {
+		if ( typeof url == 'object' ) { // Allow to pass all settings including URL in one single object
+			if ( ! url.url ) return false; // URL is mandatory!!!
+			settings = url;
+			url = url.url;
+			delete settings.url;
+		}
 		$.each( settings||{}, function( key, value ) { // Parse settings to isolate SoundManager properties
 			if ( $.inArray( key, $.playable.properties ) != -1 ) {
 				sm[key] = (key == 'flash9Options' || key == 'movieStarOptions') ? $.extend(sm[key],value) : value;
