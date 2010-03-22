@@ -9,6 +9,12 @@
 (function($){
 	var sm = soundManager;
 	$.playable = $.extend( function( url, settings ) {
+		$.each( settings, function( key, value ) { // Parse settings to isolate SoundManager properties
+			if ( $.inArray( key, $.playable.properties ) ) {
+				sm[key] = (key == 'flash9Options' || key == 'movieStarOptions') ? $.extend(sm[key],value) : value;
+				delete settings[key]; // Unset propeties from settings
+			}
+		} );
 		$.extend( sm, {
 			url : url, // Set Flash url
 			debugMode : window.location.hash.match(/^#debug/i), // Activate Debugging with hash (#debug)
@@ -39,6 +45,7 @@
 		},
 		methods : ['play','stop','pause','resume','togglePause','mute','unmute','unload','setPosition','setVolume','setPan'],
 		events : ['onload', 'onplay', 'onpause', 'onresume', 'onstop', 'onfinish'],
+		properties : ['altURL','allowPolling','allowScriptAccess','debugFlash','debugMode','useConsole','consoleOnly','flashLoadTimeout','flashVersion','nullURL','useFastPolling','useHighPerformance','wmode','waitForWindowLoad','flash9Options','movieStarOptions','allowFullScreen','useMovieStar'],
 		init : function( options, playlist ) {
 			var options = $.extend( true, {playlist: playlist}, sm.defaultOptions, options ),
 				self = $( this );
