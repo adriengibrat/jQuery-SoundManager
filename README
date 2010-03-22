@@ -2,23 +2,26 @@
 @see http://www.schillmania.com/projects/soundmanager2/doc/ for Sound Manager documentation
 
 USAGE EXEMPLES:
-
+/* Minimum settings */
+// Always do settings before DOM is ready!
+$.playable('soundmanager/swf/');
 $(function(){
-// Simple usage for mp3 links
-	$.playable('soundmanager/swf/');
-	$('a[href=$.mp3]').playable();
-
-// OR Usage with options
-	$.playable('soundmanager/swf/', { //options used here are stored as soundManager.defaultOptions
-		// You can use all SM2 default options, plus the followings:
-		autoStart : false, // Start playing the first item
-		playNext : false, // Play next item when previous ends
-		loopNext : false, // Play first item when no more next item
-		pauseOnly : false, // Just pause previous on skip
-		playAlone : false, // Force stop/pause previous on skip
-		doUnload : false // Unload sound on stop/finish
-	});
-	//Exemples of configurations
+	// Simple usage for mp3 links
+	$('a[href$=.mp3]').playable();
+});
+/* Options settings */
+// Again, do settings before DOM is ready!
+$.playable('soundmanager/swf/', { //options used here are stored as soundManager.defaultOptions
+	// You can set all SM2 default options & properties, plus the followings:
+	autoStart : false, // Start playing the first item
+	playNext : false, // Play next item when previous ends
+	loopNext : false, // Play first item when no more next item
+	pauseOnly : false, // Just pause previous on skip
+	playAlone : false, // Force stop/pause previous on skip
+	doUnload : false // Unload sound on stop/finish
+});
+$(function(){
+	//You can also overwrite default configurations for each DOM selection
 	$('ul.playlist').playable({autoStart: true, playNext: true, playAlone: true, pauseOnly: false, doUnload: false});
 	$('div.sampler').playable({autoStart: false, playNext: false, playAlone: false, pauseOnly: false, doUnload: false});
 	$('a.listen').playable({autoStart: false, playNext: false, playAlone: true, pauseOnly: true, doUnload: true});
