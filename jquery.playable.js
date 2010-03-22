@@ -9,7 +9,7 @@
 (function($){
 	var sm = soundManager;
 	$.playable = $.extend( function( url, settings ) {
-		$.each( settings, function( key, value ) { // Parse settings to isolate SoundManager properties
+		$.each( settings||{}, function( key, value ) { // Parse settings to isolate SoundManager properties
 			if ( $.inArray( key, $.playable.properties ) != -1 ) {
 				sm[key] = (key == 'flash9Options' || key == 'movieStarOptions') ? $.extend(sm[key],value) : value;
 				delete settings[key]; // Unset propeties from settings
