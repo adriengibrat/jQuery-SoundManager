@@ -38,19 +38,26 @@
 				$( '<span class="' + $.playable.css.ui + ' ' + $.playable.css.controls + '"><span class="' + $.playable.css.loading + '"></span><span class="' + $.playable.css.position + '"></span></span>' )
 				.bind( 'click.playable', doNothing )
 				.bind( 'mousedown.playable', function( event ) {
-					var controls     = $( this ).addClass( $.playable.css.searching ),
-						position = controls.find( '.' + $.playable.css.position ),
-						left     = controls.offset().left,
-						width    = controls.width(),
-						sound    = controls.parent().data( 'playable' );
-					$.playable.searching = controls;
+					var controls	= $( this ).addClass( $.playable.css.searching ),
+						position	= controls.find( '.' + $.playable.css.position ),
+						left		= controls.offset().left,
+						width		= controls.width(),
+						sound		= controls.parent().data( 'playable' );
 					sound.pause();
-					$( document ).bind( 'mousemove.playable', function( event ) {
+					$( document )
+					.bind( 'mousemove.playable', function( event ) {
 						var x = Math.max( 0, Math.min( event.clientX - left, width ) );
 						position.width( x );
 						sound.setPosition( x / width * sound.durationEstimate );
 						return false;
-					} ).mousemove();
+					} )
+					.bind( 'mouseup.playable', function( event ) {
+						controls.removeClass( $.playable.css.searching );
+						sound.resume();
+						$( this ).unbind( 'mousemove.playable mouseup.playable' );
+						return false;
+					} )
+					.trigger( {type: 'mousemove', clientX: event.clientX} );
 					return false;
 				} )
 				.appendTo( this );
@@ -65,17 +72,6 @@
 					$( '.' + $.playable.css.position, this ).width( sound.position / sound.durationEstimate * 100 + '%' );
 					$( '.' + $.playable.css.elapsed, this ).html( $.playable.formatTime( sound.position ) );
 					$( '.' + $.playable.css.total, this ).html( ' / ' + $.playable.formatTime( sound.durationEstimate ) );
-				} );
-				$( document ).bind( 'mouseup.playable', function( event ) {
-					if ( ! $.playable.searching )
-						return;
-					var element   = $.playable.searching.removeClass( $.playable.css.searching ).parent(),
-						sound = element.data( 'playable' );
-					$( document ).unbind( 'mousemove.playable' );
-					if ( element.hasClass( $.playable.css.playing ) )
-						sound.resume();
-					$.playable.searching = null;
-					return false;
 				} );
 			}
 		}
