@@ -38,22 +38,19 @@
 				$( '<span class="' + $.playable.css.ui + ' ' + $.playable.css.controls + '"><span class="' + $.playable.css.loading + '"></span><span class="' + $.playable.css.position + '"></span></span>' )
 				.bind( 'click.playable', doNothing )
 				.bind( 'mousedown.playable', function( event ) {
-					var controls	= $( this ).addClass( $.playable.css.searching ),
-						position	= controls.find( '.' + $.playable.css.position ),
-						left		= controls.offset().left,
-						width		= controls.width(),
-						sound		= controls.parent().data( 'playable' );
-						x			= event.clientX - left;
+					var controls     = $( this ).addClass( $.playable.css.searching ),
+						position = controls.find( '.' + $.playable.css.position ),
+						left     = controls.offset().left,
+						width    = controls.width(),
+						sound    = controls.parent().data( 'playable' );
 					$.playable.searching = controls;
-					position.width( x );
-					sound.setPosition( x / width * sound.durationEstimate );
 					sound.pause();
 					$( document ).bind( 'mousemove.playable', function( event ) {
 						var x = Math.max( 0, Math.min( event.clientX - left, width ) );
 						position.width( x );
 						sound.setPosition( x / width * sound.durationEstimate );
 						return false;
-					} );
+					} ).mousemove();
 					return false;
 				} )
 				.appendTo( this );
@@ -72,8 +69,8 @@
 				$( document ).bind( 'mouseup.playable', function( event ) {
 					if ( ! $.playable.searching )
 						return;
-					var element	= $.playable.searching.removeClass( $.playable.css.searching ).parent(),
-						sound	= element.data( 'playable' );
+					var element   = $.playable.searching.removeClass( $.playable.css.searching ).parent(),
+						sound = element.data( 'playable' );
 					$( document ).unbind( 'mousemove.playable' );
 					if ( element.hasClass( $.playable.css.playing ) )
 						sound.resume();
