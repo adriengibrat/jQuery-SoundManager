@@ -16,7 +16,7 @@
 			timing : 'timing',
 			elapsed : 'elapsed',
 			total : 'total',
-			controls : 'controls',
+			progress : 'progress',
 			loading : 'loading',
 			position : 'position',
 			searching : 'searching'
@@ -29,39 +29,9 @@
 		},
 		ui : {
 			simple : function() {
-				var doNothing = function() {
-						return false;
-					};
-				$( '<span class="' + $.playable.css.ui + ' ' + $.playable.css.timing + '"><span class="' + $.playable.css.elapsed + '"></span><span class="' + $.playable.css.total + '"></span></span>' )
-				.bind( 'click.playable', doNothing )
-				.prependTo( this );
-				$( '<span class="' + $.playable.css.ui + ' ' + $.playable.css.controls + '"><span class="' + $.playable.css.loading + '"></span><span class="' + $.playable.css.position + '"></span></span>' )
-				.bind( 'click.playable', doNothing )
-				.bind( 'mousedown.playable', function( event ) {
-					var controls	= $( this ).addClass( $.playable.css.searching ),
-						position	= controls.find( '.' + $.playable.css.position ),
-						left		= controls.offset().left,
-						width		= controls.width(),
-						sound		= controls.parent().data( 'playable' );
-					sound.pause();
-					$( document )
-					.bind( 'mousemove.playable', function( event ) {
-						var x = Math.max( 0, Math.min( event.clientX - left, width ) );
-						position.width( x );
-						sound.setPosition( x / width * sound.durationEstimate );
-						return false;
-					} )
-					.bind( 'mouseup.playable', function( event ) {
-						controls.removeClass( $.playable.css.searching );
-						sound.resume();
-						$( this ).unbind( 'mousemove.playable mouseup.playable' );
-						return false;
-					} )
-					.trigger( {type: 'mousemove', clientX: event.clientX} );
-					return false;
-				} )
-				.appendTo( this );
 				$( this )
+				.prepend( '<span class="' + $.playable.css.ui + ' ' + $.playable.css.timing + '"><span class="' + $.playable.css.elapsed + '"></span><span class="' + $.playable.css.total + '"></span></span>' )
+				.append( '<span class="' + $.playable.css.ui + ' ' + $.playable.css.progress + '"><span class="' + $.playable.css.loading + '"></span><span class="' + $.playable.css.position + '"></span></span>' )
 				.bind( 'onstop.playable', function(){
 					$( '.' + $.playable.css.elapsed + ', .' + $.playable.css.total, this ).empty();
 				} )
@@ -72,6 +42,34 @@
 					$( '.' + $.playable.css.position, this ).width( sound.position / sound.durationEstimate * 100 + '%' );
 					$( '.' + $.playable.css.elapsed, this ).html( $.playable.formatTime( sound.position ) );
 					$( '.' + $.playable.css.total, this ).html( ' / ' + $.playable.formatTime( sound.durationEstimate ) );
+				} )
+				.find( '.' + $.playable.css.ui )
+				.bind( 'click.playable', function() { return false; } )
+				.filter( '.' + $.playable.css.progress )
+				.bind( 'mousedown.playable', function( event ) {
+					var progress	= $( this ).addClass( $.playable.css.searching ),
+						position	= progress.find( '.' + $.playable.css.position ),
+						left		= progress.offset().left,
+						width		= progress.width(),
+						sound		= progress.parent().data( 'playable' );
+					$.playable.searching = true;
+					sound.pause();
+					$( document )
+					.bind( 'mousemove.playable', function( event ) {
+						var x = Math.max( 0, Math.min( event.clientX - left, width ) );
+						position.width( x );
+						sound.setPosition( x / width * sound.durationEstimate );
+						return false;
+					} )
+					.bind( 'mouseup.playable', function() {
+						$.playable.searching = false;
+						if ( progress.removeClass( $.playable.css.searching ).parent().hasClass( $.playable.css.playing ) )
+							sound.resume();
+						$( this ).unbind( 'mousemove.playable mouseup.playable' );
+						return false;
+					} )
+					.trigger( { type: 'mousemove', clientX: event.clientX } );
+					return false;
 				} );
 			}
 		}
