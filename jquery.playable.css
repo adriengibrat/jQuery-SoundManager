@@ -33,12 +33,12 @@
 .playable.paused .ui {
 	display: block;
 }
-.playable .ui.controls,
-.playable .ui.controls .loading,
-.playable .ui.controls .position {
+.playable .ui.progress,
+.playable .ui.progress .loading,
+.playable .ui.progress .position {
 	height: .5em;
 }
-.playable .ui.controls {
+.playable .ui.progress {
 	position: relative;
 	border: 1px solid transparent;
 	margin: .25em 0 0 0;
@@ -47,8 +47,8 @@
 	cursor:-moz-grab;
 	cursor:grab;
 }
-.playable .ui.controls .loading,
-.playable .ui.controls .position {
+.playable .ui.progress .loading,
+.playable .ui.progress .position {
 	display: block;
 	position: absolute;
 	left: 0;
@@ -72,12 +72,12 @@
 /* Corners */
 .playable,
 .playable .ui.timing,
-.playable .ui.controls {
+.playable .ui.progress {
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 }
-.playable .ui.controls .loading,
-.playable .ui.controls .position {
+.playable .ui.progress .loading,
+.playable .ui.progress .position {
 	-moz-border-radius-topleft: 2px;
 	-moz-border-radius-bottomleft: 2px;
 	-webkit-border-top-left-radius: 2px;
@@ -103,19 +103,19 @@
 	background-color: #888;
 	border-color: #FFF;
 }
-.playable .ui.controls {
+.playable .ui.progress {
 	border-color: #FFF;
 	background-color: #CDF;
 }
-.playable.paused .ui.controls {
+.playable.paused .ui.progress {
 	background-color: #CCC;
 }
-.playable .ui.controls .loading {
+.playable .ui.progress .loading {
 	background-color: #EEE;
 }
-.playable .ui.controls .position {
+.playable .ui.progress .position {
 	background-color: #369;
 }
-.playable.paused .ui.controls .position {
+.playable.paused .ui.progress .position {
 	background-color: #666;
 }
