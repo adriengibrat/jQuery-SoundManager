@@ -1,4 +1,4 @@
-/*!
+/*
  * jQuery Sound Manager Plugin
  * http://github.com/adriengibrat/jQuery-SoundManager
  *
@@ -6,40 +6,40 @@
  * Dual licensed under the MIT and GPL licenses.
  * http://opensource.org/licenses/mit-license.php
  */
-(function($){
+( function( $ ) {
 	var sm = soundManager;
 	$.playable = $.extend( function( url, settings ) {
-		if ( typeof url == 'object' ) { // Allow to pass all settings including URL in one single object
-			if ( ! url.url ) return false; // URL is mandatory!!!
+		if ( typeof url == 'object' && url.url ) { // Allow to pass all settings including URL in one single object
 			settings = url;
 			url = url.url;
 			delete settings.url;
 		}
-		$.each( settings||{}, function( key, value ) { // Parse settings to isolate SoundManager properties
-			if ( $.inArray( key, $.playable.properties ) != -1 ) {
-				sm[key] = (key == 'flash9Options' || key == 'movieStarOptions') ? $.extend(sm[key],value) : value;
-				delete settings[key]; // Unset propeties from settings
+		$.each( settings || {}, function( key, value ) { // Parse settings to isolate SoundManager properties
+			if ( $.inArray( key, $.playable.properties ) ) {
+				sm[key] = ( key == 'flash9Options' || key == 'movieStarOptions' ) ? $.extend( sm[key], value ) : value;
+				delete settings[key]; // Unset propeties from default options
 			}
 		} );
-		$.extend( sm, {
+		$.extend( true, sm, {
 			url : url, // Set Flash url
 			debugMode : window.location.hash.match(/^#debug/i), // Activate Debugging with hash (#debug)
 			consoleOnly : window.location.hash.match(/console$/i), // Debug in console only (#debugconsole)
-			defaultOptions : $.extend({ // Extends soundManager default options
-				autoStart : false,
-				pauseOnly : false,
-				playNext : true,
-				loopNext : true,
-				playAlone : true,
-				doUnload : false
-			}, settings )
-		});
+			defaultOptions : $.extend( $.playable.settings, settings ) // Extends soundManager default options
+		} );
 		$.each( $.playable.events, function( i, event ) { // Set Events Handler as element custom Handler
 			sm.defaultOptions[event] = function() {
 				this.options.element.triggerHandler( event, this );
 			};
 		} );
 	}, {
+		settings : {
+			autoStart : false,
+			pauseOnly : false,
+			playNext : true,
+			loopNext : true,
+			playAlone : true,
+			doUnload : false
+		},
 		count : 0,
 		current : null,
 		searching : null,
@@ -66,28 +66,28 @@
 				self.data( 'playable' ).togglePause();
 				return false;
 			} )
-			.bind( 'onload.playable', function( event, sound ){
+			.bind( 'onload.playable', function( event, sound ) {
 				if ( sound.readyState == 2 )
 					$.playable.next();
 			} )
-			.bind( 'onplay.playable', function(){
+			.bind( 'onplay.playable', function() {
 				if ( options.playAlone && $.playable.current && $.playable.current != self )
 					$.playable.current.data( 'playable' )[ options.pauseOnly ? 'pause' : 'stop' ]();
 				$.playable.current = self.focus();
 			} )
-			.bind( 'onresume.playable', function( event, sound ){
+			.bind( 'onresume.playable', function( event, sound ) {
 				self.triggerHandler( 'onplay', sound );
 			} )
-			.bind( 'onstop.playable', function( event, sound ){
+			.bind( 'onstop.playable', function( event, sound ) {
 				if ( options.doUnload )
 					sound.unload();
 			} )
-			.bind( 'onfinish.playable', function( event, sound ){
+			.bind( 'onfinish.playable', function( event, sound ) {
 				self.triggerHandler( 'onstop', sound );
 				if ( options.playNext )
 					$.playable.next();
 			} );
-			$.each( $.playable.ui, function( i, ui ){ // Bind UIs
+			$.each( $.playable.ui, function( i, ui ) { // Bind UIs
 				ui.call( self, options );
 			} );
 		},
@@ -114,11 +114,11 @@
 		next : function( move ) {
 			if ( ! this.current )
 				return;
-			var options		= this.current.data( 'playable' ).options,
-				playlist	= $( options.playlist ),
-				songs		= playlist.is( 'a[href]' ) ? playlist : playlist.find( 'a[href]' ),
-				move		= move || 1,
-				next		= songs.eq( songs.index( options.element ) + move ).data( 'playable' );
+			var options  = this.current.data( 'playable' ).options,
+				playlist = $( options.playlist ),
+				songs    = playlist.is( 'a[href]' ) ? playlist : playlist.find( 'a[href]' ),
+				move     = move || 1,
+				next     = songs.eq( songs.index( options.element ) + move ).data( 'playable' );
 			if ( ! next && options.loopNext )
 				next = songs.eq( 0 ).data( 'playable' );
 			if ( next && ! next.playState )
@@ -130,13 +130,13 @@
 			songs		= this.is( 'a[href]' ) ? this : this.find( 'a[href]' ),
 			options		= options || {};
 		if ( typeof options == 'string' && $.inArray( options, $.playable.methods ) != -1 )
-			songs.each( function( args ){
+			songs.each( function( args ) {
 				var sound = $( this ).data( 'playable' );
 				sound && sound[options]( args );
 			}, [arguments[1]] );
 		else
 			sm.onready( function() {
-				songs.each( function(){
+				songs.each( function() {
 					if ( sm.canPlayURL( this.href ) )
 						$.playable.init.call( this, options, playlist );
 				});
@@ -145,4 +145,4 @@
 			} );
 		return this;
 	};
-})(jQuery);
+} )( jQuery );
