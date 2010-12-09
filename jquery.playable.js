@@ -71,8 +71,10 @@
 					$.playable.next();
 			} )
 			.bind( 'onplay.playable', function() {
-				if ( options.playAlone && $.playable.current && $.playable.current != self )
-					$.playable.current.data( 'playable' )[ options.pauseOnly ? 'pause' : 'stop' ]();
+				if ( options.playAlone && $.playable.current && $.playable.current != self ) {
+					current = $.playable.current.data( 'playable' );
+					current && current[ options.pauseOnly ? 'pause' : 'stop' ]();
+				}
 				$.playable.current = self.focus();
 			} )
 			.bind( 'onresume.playable', function( event, sound ) {
