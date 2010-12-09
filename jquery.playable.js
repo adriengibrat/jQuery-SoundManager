@@ -129,20 +129,22 @@
 		var playlist	= this.selector,
 			songs		= this.is( 'a[href]' ) ? this : this.find( 'a[href]' ),
 			options		= options || {};
-		if ( typeof options == 'string' && $.inArray( options, $.playable.methods ) != -1 )
+		if ( typeof options == 'string' && $.inArray( options, $.playable.methods ) != -1 ) {
 			songs.each( function( args ) {
 				var sound = $( this ).data( 'playable' );
 				sound && sound[options]( args );
 			}, [arguments[1]] );
-		else
-			sm.onready( function() {
-				songs.each( function() {
-					if ( sm.canPlayURL( this.href ) )
-						$.playable.init.call( this, options, playlist );
+		} else {
+			init = function(){
+				songs.each(function(){
+					if (sm.canPlayURL(this.href)) 
+						$.playable.init.call(this, options, playlist);
 				});
-				if ( options && options.autoStart )
-					songs.filter( ':first' ).click();
-			} );
+				if (options && options.autoStart) 
+					songs.filter(':first').click();
+			};
+			sm.enabled ? init() : sm.onready(init);
+		}
 		return this;
 	};
 } )( jQuery );
