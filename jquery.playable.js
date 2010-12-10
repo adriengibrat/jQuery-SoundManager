@@ -55,6 +55,8 @@
 		init : function( options, playlist ) {
 			var options = $.extend( true, {playlist: playlist}, sm.defaultOptions, options ),
 				self = $( this );
+			if(self.data( 'playable')) // ensure to avoid multiple init
+				return;
 			self.addClass( $.playable.css.playable )
 			.data( 'playable', sm.createSound( $.extend( options, {
 				id : 'playable' + $.playable.count++,
