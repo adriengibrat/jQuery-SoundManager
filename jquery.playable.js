@@ -6,8 +6,7 @@
  * Dual licensed under the MIT and GPL licenses.
  * http://opensource.org/licenses/mit-license.php
  */
-( function( $ ) {
-	var sm = soundManager;
+( function( $, sm ) {
 	$.playable = $.extend( function( url, settings ) {
 		if ( typeof url == 'object' && url.url ) { // Allow to pass all settings including URL in one single object
 			settings = url;
@@ -151,4 +150,4 @@
 		}
 		return this;
 	};
-} )( jQuery );
+} )( jQuery, soundManager );
