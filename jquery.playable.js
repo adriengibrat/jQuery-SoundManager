@@ -13,17 +13,15 @@
 			url = url.url;
 			delete settings.url;
 		}
-		$.each( settings || {}, function( key, value ) { // Parse settings to isolate SoundManager properties
-			if ( $.inArray( key, $.playable.properties ) ) {
-				sm[key] = ( key == 'flash9Options' || key == 'movieStarOptions' ) ? $.extend( sm[key], value ) : value;
-				delete settings[key]; // Unset propeties from default options
-			}
-		} );
-		$.extend( true, sm, {
+		$.each( $.extend( true, $.playable.settings, settings || {}, {
 			url : url, // Set Flash url
 			debugMode : window.location.hash.match(/^#debug/i), // Activate Debugging with hash (#debug)
-			consoleOnly : window.location.hash.match(/console$/i), // Debug in console only (#debugconsole)
-			defaultOptions : $.extend( $.playable.settings, settings ) // Extends soundManager default options
+			consoleOnly : window.location.hash.match(/console$/i) // Debug in console only (#debugconsole)
+		} ), function( key, value ) { // Parse settings to isolate SoundManager properties
+			if ( $.inArray( key, $.playable.properties ) )
+				sm[key] = ( key == 'flash9Options' || key == 'movieStarOptions' ) ? $.extend( sm[key], value ) : value;
+			else 
+				sm.defaultOptions[key] = value;
 		} );
 		$.each( $.playable.events, function( i, event ) { // Set Events Handler as element custom Handler
 			sm.defaultOptions[event] = function() {
