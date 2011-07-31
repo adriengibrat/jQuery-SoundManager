@@ -50,7 +50,7 @@
 		},
 		methods : ['play','stop','pause','resume','togglePause','mute','unmute','unload','setPosition','setVolume','setPan'],
 		events : ['onload', 'onplay', 'onpause', 'onresume', 'onstop', 'onfinish'],
-		properties : ['altURL','allowPolling','allowScriptAccess','debugFlash','debugMode','useConsole','consoleOnly','flashLoadTimeout','flashVersion','nullURL','useFastPolling','useHighPerformance','wmode','waitForWindowLoad','flash9Options','movieStarOptions','allowFullScreen','useMovieStar','usePeakData','useWaveformData', 'useEQData', 'fillGraph', 'allowRightClick', 'useThrottling', 'autoStart', 'playNext', 'updatePageTitle', 'emptyTime', 'useFavIcon'],
+		properties : ['altURL','allowPolling','allowScriptAccess','debugFlash','debugMode','useConsole','consoleOnly','flashLoadTimeout','flashVersion','nullURL','useFastPolling','useHighPerformance','wmode','waitForWindowLoad','flash9Options','movieStarOptions','allowFullScreen','useMovieStar','usePeakData','useWaveformData','useEQData'],
 		init : function( options, playlist ) {
 			var options = $.extend( true, {playlist: playlist}, sm.defaultOptions, options ),
 				self = $( this );
