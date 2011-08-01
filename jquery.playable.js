@@ -18,7 +18,7 @@
 			debugMode : window.location.hash.match(/^#debug/i), // Activate Debugging with hash (#debug)
 			consoleOnly : window.location.hash.match(/console$/i) // Debug in console only (#debugconsole)
 		} ), function( key, value ) { // Parse settings to isolate SoundManager properties
-			if ( $.inArray( key, $.playable.properties ) )
+			if ( $.inArray( key, $.playable.properties ) > 0 )
 				sm[key] = ( key == 'flash9Options' || key == 'movieStarOptions' ) ? $.extend( sm[key], value ) : value;
 			else 
 				sm.defaultOptions[key] = value;
@@ -48,7 +48,7 @@
 		},
 		methods : ['play','stop','pause','resume','togglePause','mute','unmute','unload','setPosition','setVolume','setPan'],
 		events : ['onload', 'onplay', 'onpause', 'onresume', 'onstop', 'onfinish'],
-		properties : ['altURL','allowPolling','allowScriptAccess','debugFlash','debugMode','useConsole','consoleOnly','flashLoadTimeout','flashVersion','nullURL','useFastPolling','useHighPerformance','wmode','waitForWindowLoad','flash9Options','movieStarOptions','allowFullScreen','useMovieStar','usePeakData','useWaveformData','useEQData'],
+		properties :['allowPolling','allowScriptAccess','altURL','consoleOnly','debugFlash','debugMode','defaultOptions','flash9Options','features','flashLoadTimeout','flashVersion','movieStarOptions','nullURL','url','useConsole','useFastPolling','flashPollingInterval','useFlashBlock','useHighPerformance','useHTML5Audio','useMovieStar','wmode','waitForWindowLoad'],
 		init : function( options, playlist ) {
 			var options = $.extend( true, {playlist: playlist}, sm.defaultOptions, options ),
 				self = $( this );
