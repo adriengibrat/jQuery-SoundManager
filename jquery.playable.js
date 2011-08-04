@@ -35,7 +35,8 @@
 			playNext : true,
 			loopNext : true,
 			playAlone : true,
-			doUnload : false
+			doUnload : false,
+			useFlashBlock : true
 		},
 		count : 0,
 		current : null,
