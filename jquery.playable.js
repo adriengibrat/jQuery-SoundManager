@@ -118,7 +118,7 @@
 				return;
 			var options  = this.current.data( 'playable' ).options,
 				playlist = $( options.playlist ),
-				songs    = playlist.is( 'a[href]' ) ? playlist : playlist.find( 'a[href]' ),
+				songs    = playlist.is( 'a.playable' ) ? playlist : playlist.find( 'a.playable' ),
 				move     = move || 1,
 				next     = songs.eq( songs.index( options.element ) + move ).data( 'playable' );
 			if ( ! next && options.loopNext )
@@ -132,10 +132,10 @@
 			songs		= this.is( 'a[href]' ) ? this : this.find( 'a[href]' ),
 			options		= options || {};
 		if ( typeof options == 'string' && $.inArray( options, $.playable.methods ) != -1 ) {
-			songs.each( function( args ) {
+			songs.filter('.playable').each( function( args ) {
 				var sound = $( this ).data( 'playable' );
-				sound && sound[options]( args );
-			}, [arguments[1]] );
+				sound && sound[options].apply( sound, args );
+			}, arguments.slice( 1 ) );
 		} else {
 			init = function(){
 				songs.each(function(){
