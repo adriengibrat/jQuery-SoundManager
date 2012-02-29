@@ -132,10 +132,11 @@
 			songs		= this.is( 'a[href]' ) ? this : this.find( 'a[href]' ),
 			options		= options || {};
 		if ( typeof options == 'string' && $.inArray( options, $.playable.methods ) != -1 ) {
-			songs.filter('.playable').each( function( args ) {
+			var args = $.makeArray( arguments ).slice( 1 );
+			songs.filter('.playable').each( function() {
 				var sound = $( this ).data( 'playable' );
 				sound && sound[options].apply( sound, args );
-			}, arguments.slice( 1 ) );
+			} );
 		} else {
 			init = function(){
 				songs.each(function(){
