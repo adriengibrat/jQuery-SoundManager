@@ -25,7 +25,7 @@
 		} );
 		$.each( $.playable.events, function( i, event ) { // Set Events Handler as element custom Handler
 			sm.defaultOptions[event] = function() {
-				this.options.element.triggerHandler( event, this );
+				$('#'+this.options.element).triggerHandler( event, this );
 			};
 		} );
 	}, {
@@ -59,7 +59,7 @@
 			.data( 'playable', sm.createSound( $.extend( options, {
 				id : 'playable' + $.playable.count++,
 				url : this.href,
-				element : self
+				element : self.attr('id')
 			} ) ) )
 			.click( function( event ) {
 				event.preventDefault();
@@ -120,7 +120,7 @@
 				playlist = $( options.playlist ),
 				songs    = playlist.is( 'a.playable' ) ? playlist : playlist.find( 'a.playable' ),
 				move     = move || 1,
-				next     = songs.eq( songs.index( options.element ) + move ).data( 'playable' );
+				next     = songs.eq( songs.index( $('#'+options.element) ) + move ).data( 'playable' );
 			if ( ! next && options.loopNext )
 				next = songs.eq( 0 ).data( 'playable' );
 			if ( next && ! next.playState )
